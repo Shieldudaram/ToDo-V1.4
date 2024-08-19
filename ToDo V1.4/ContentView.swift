@@ -11,50 +11,75 @@ import SwiftData
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var items: [Item]
+    
+    // Define the app's blue background color
+    private let backgroundColor = Color.blue
 
     var body: some View {
-        NavigationSplitView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
+        ZStack {
+            // Set the background color
+            backgroundColor.edgesIgnoringSafeArea(.all)
+            
+            VStack {
+                Text("Points: 0")  // Placeholder for points section
+                    .font(.largeTitle)
+                    .foregroundColor(.white)
+                
+                Text("Peasant")  // Placeholder for ranking section
+                    .font(.title)
+                    .foregroundColor(.white)
+                    .padding(.top, 10)
+                
+                Spacer()
+                
+                // Buttons for navigation
+                VStack(spacing: 20) {
+                    Button(action: {
+                        // Handle navigation to Daily List
+                    }) {
+                        Text("Daily List")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.white)
+                            .foregroundColor(.black)
+                            .cornerRadius(10)
+                    }
+                    
+                    Button(action: {
+                        // Handle navigation to Brain Dump
+                    }) {
+                        Text("Brain Dump")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.white)
+                            .foregroundColor(.black)
+                            .cornerRadius(10)
+                    }
+                    
+                    Button(action: {
+                        // Handle navigation to Priority Window
+                    }) {
+                        Text("Priority Window")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.white)
+                            .foregroundColor(.black)
+                            .cornerRadius(10)
+                    }
+                    
+                    Button(action: {
+                        // Handle navigation to Time Block
+                    }) {
+                        Text("Time Block")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.white)
+                            .foregroundColor(.black)
+                            .cornerRadius(10)
                     }
                 }
-                .onDelete(perform: deleteItems)
-            }
-#if os(macOS)
-            .navigationSplitViewColumnWidth(min: 180, ideal: 200)
-#endif
-            .toolbar {
-#if os(iOS)
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-#endif
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
-                }
-            }
-        } detail: {
-            Text("Select an item")
-        }
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
+                .padding(.horizontal, 30)
+                .padding(.bottom, 50)
             }
         }
     }
