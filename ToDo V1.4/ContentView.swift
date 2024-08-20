@@ -15,6 +15,7 @@ struct ContentView: View {
     @State private var showBrainDump = false
     @State private var showPriorityWindow = false
     @State private var showTimeBlock = false
+    @State private var showAddTaskSheet = false
 
     private let backgroundColor = Color.blue
 
@@ -33,6 +34,9 @@ struct ContentView: View {
             } else {
                 mainScreen
             }
+        }
+        .sheet(isPresented: $showAddTaskSheet) {
+            AddTaskView(viewModel: viewModel)
         }
     }
     
@@ -101,6 +105,22 @@ struct ContentView: View {
     
     var dailyListView: some View {
         VStack(alignment: .leading) {
+            HStack {
+                Button(action: {
+                    showAddTaskSheet = true
+                }) {
+                    Text("Add Task")
+                        .font(.headline)
+                        .padding()
+                        .background(Color.green)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                }
+                .padding([.leading, .top], 16)
+                
+                Spacer()
+            }
+
             ScrollView {
                 VStack(alignment: .leading, spacing: 10) {
                     ForEach(viewModel.tasks) { task in

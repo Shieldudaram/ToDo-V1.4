@@ -9,25 +9,24 @@ import SwiftUI
 import Combine
 
 class TaskViewModel: ObservableObject {
-    @Published var tasks: [Task]
+    @Published var tasks: [Task] = []
 
-    init(tasks: [Task] = []) {
-        self.tasks = tasks
-    }
-
-    func addTask(name: String, points: Int) {
-        let newTask = Task(name: name, points: points)
+    func addTask(name: String, points: Int, checkboxes: Int) {
+        let newTask = Task(name: name, points: points, isCompleted: Array(repeating: false, count: checkboxes))
         tasks.append(newTask)
     }
 
-    func toggleTaskCompletion(task: Task) {
-        if let index = tasks.firstIndex(where: { $0.id == task.id }) {
-            tasks[index].isCompleted.toggle()
+    func toggleTaskCompletion(task: Task, atIndex index: Int) {
+        if let taskIndex = tasks.firstIndex(where: { $0.id == task.id }) {
+            tasks[taskIndex].isCompleted[index].toggle()
         }
     }
 
     func calculateTotalScore() -> Int {
-        return tasks.filter { $0.isCompleted }.map { $0.points }.reduce(0, +)
+        return tasks.reduce(0) { total, task in
+            let completedPoints = task.isCompleted.filter { $0 }.count * task.points
+            return total + completedPoints
+        }
     }
 
     func getMedievalTitle() -> String {

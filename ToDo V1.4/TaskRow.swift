@@ -13,13 +13,16 @@ struct TaskRow: View {
 
     var body: some View {
         HStack {
-            Button(action: {
-                viewModel.toggleTaskCompletion(task: task)
-            }) {
-                Image(systemName: task.isCompleted ? "checkmark.square.fill" : "square")
-                    .foregroundColor(task.isCompleted ? .green : .white)
+            // Loop through the checkboxes and display each one
+            ForEach(0..<task.isCompleted.count, id: \.self) { index in
+                Button(action: {
+                    viewModel.toggleTaskCompletion(task: task, atIndex: index)
+                }) {
+                    Image(systemName: task.isCompleted[index] ? "checkmark.square.fill" : "square")
+                        .foregroundColor(task.isCompleted[index] ? .green : .white)
+                }
+                .buttonStyle(BorderlessButtonStyle())
             }
-            .buttonStyle(BorderlessButtonStyle())
             
             Text(task.name)
                 .foregroundColor(.white)

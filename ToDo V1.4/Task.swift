@@ -9,14 +9,15 @@ import Foundation
 import SwiftData
 
 @Model
-class Task {
+class Task: Identifiable, ObservableObject {
     var id: UUID = UUID()
     var name: String
-    var isCompleted: Bool = false
-    var points: Int = 0
+    var points: Int
+    var isCompleted: [Bool]
 
-    init(name: String, points: Int) {
+    init(name: String, points: Int, isCompleted: [Bool]) {
         self.name = name
         self.points = points
+        self.isCompleted = isCompleted
     }
 }
