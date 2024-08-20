@@ -7,86 +7,193 @@
 //
 
 import SwiftUI
-import SwiftData
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
-    
-    // Define the app's blue background color
+    @StateObject private var viewModel = TaskViewModel()
+
+    @State private var showDailyList = false
+    @State private var showBrainDump = false
+    @State private var showPriorityWindow = false
+    @State private var showTimeBlock = false
+
     private let backgroundColor = Color.blue
 
     var body: some View {
         ZStack {
-            // Set the background color
             backgroundColor.edgesIgnoringSafeArea(.all)
             
-            VStack {
-                Text("Points: 0")  // Placeholder for points section
-                    .font(.largeTitle)
-                    .foregroundColor(.white)
-                
-                Text("Peasant")  // Placeholder for ranking section
-                    .font(.title)
-                    .foregroundColor(.white)
-                    .padding(.top, 10)
-                
-                Spacer()
-                
-                // Buttons for navigation
-                VStack(spacing: 20) {
-                    Button(action: {
-                        // Handle navigation to Daily List
-                    }) {
-                        Text("Daily List")
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.white)
-                            .foregroundColor(.black)
-                            .cornerRadius(10)
-                    }
-                    
-                    Button(action: {
-                        // Handle navigation to Brain Dump
-                    }) {
-                        Text("Brain Dump")
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.white)
-                            .foregroundColor(.black)
-                            .cornerRadius(10)
-                    }
-                    
-                    Button(action: {
-                        // Handle navigation to Priority Window
-                    }) {
-                        Text("Priority Window")
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.white)
-                            .foregroundColor(.black)
-                            .cornerRadius(10)
-                    }
-                    
-                    Button(action: {
-                        // Handle navigation to Time Block
-                    }) {
-                        Text("Time Block")
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.white)
-                            .foregroundColor(.black)
-                            .cornerRadius(10)
-                    }
-                }
-                .padding(.horizontal, 30)
-                .padding(.bottom, 50)
+            if showDailyList {
+                dailyListView
+            } else if showBrainDump {
+                brainDumpView
+            } else if showPriorityWindow {
+                priorityWindowView
+            } else if showTimeBlock {
+                timeBlockView
+            } else {
+                mainScreen
             }
         }
+    }
+    
+    var mainScreen: some View {
+        VStack {
+            Text("Points: \(viewModel.calculateTotalScore())")
+                .font(.largeTitle)
+                .foregroundColor(.white)
+            
+            Text(viewModel.getMedievalTitle())
+                .font(.title)
+                .foregroundColor(.white)
+                .padding(.top, 10)
+            
+            Spacer()
+            
+            VStack(spacing: 20) {
+                Button(action: {
+                    showDailyList = true
+                }) {
+                    Text("Daily List")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.white)
+                        .foregroundColor(.black)
+                        .cornerRadius(10)
+                }
+                
+                Button(action: {
+                    showBrainDump = true
+                }) {
+                    Text("Brain Dump")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.white)
+                        .foregroundColor(.black)
+                        .cornerRadius(10)
+                }
+                
+                Button(action: {
+                    showPriorityWindow = true
+                }) {
+                    Text("Priority Window")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.white)
+                        .foregroundColor(.black)
+                        .cornerRadius(10)
+                }
+                
+                Button(action: {
+                    showTimeBlock = true
+                }) {
+                    Text("Time Block")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.white)
+                        .foregroundColor(.black)
+                        .cornerRadius(10)
+                }
+            }
+            .padding(.horizontal, 30)
+            .padding(.bottom, 50)
+        }
+    }
+    
+    var dailyListView: some View {
+        VStack(alignment: .leading) {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 10) {
+                    ForEach(viewModel.tasks) { task in
+                        TaskRow(task: task, viewModel: viewModel)
+                    }
+                }
+                .padding(.top, 20)
+            }
+            
+            Spacer()
+            
+            Button(action: resetView) {
+                Text("Main Screen")
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.white)
+                    .foregroundColor(.black)
+                    .cornerRadius(10)
+            }
+            .padding(.horizontal, 30)
+            .padding(.bottom, 50)
+        }
+        .background(backgroundColor.edgesIgnoringSafeArea(.all))
+    }
+    
+    var brainDumpView: some View {
+        VStack {
+            // Placeholder for Brain Dump content
+            
+            Spacer()
+            
+            Button(action: resetView) {
+                Text("Main Screen")
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.white)
+                    .foregroundColor(.black)
+                    .cornerRadius(10)
+            }
+            .padding(.horizontal, 30)
+            .padding(.bottom, 50)
+        }
+        .background(backgroundColor.edgesIgnoringSafeArea(.all))
+    }
+    
+    var priorityWindowView: some View {
+        VStack {
+            // Placeholder for Priority Window content
+            
+            Spacer()
+            
+            Button(action: resetView) {
+                Text("Main Screen")
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.white)
+                    .foregroundColor(.black)
+                    .cornerRadius(10)
+            }
+            .padding(.horizontal, 30)
+            .padding(.bottom, 50)
+        }
+        .background(backgroundColor.edgesIgnoringSafeArea(.all))
+    }
+    
+    var timeBlockView: some View {
+        VStack {
+            // Placeholder for Time Block content
+            
+            Spacer()
+            
+            Button(action: resetView) {
+                Text("Main Screen")
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.white)
+                    .foregroundColor(.black)
+                    .cornerRadius(10)
+            }
+            .padding(.horizontal, 30)
+            .padding(.bottom, 50)
+        }
+        .background(backgroundColor.edgesIgnoringSafeArea(.all))
+    }
+    
+    private func resetView() {
+        showDailyList = false
+        showBrainDump = false
+        showPriorityWindow = false
+        showTimeBlock = false
     }
 }
 
 #Preview {
     ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
 }
