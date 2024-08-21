@@ -22,10 +22,9 @@ struct AddTaskView: View {
                     TextField("Task Name", text: $taskName)
                     
                     TextField("Points", text: $taskPoints)
-                        .keyboardType(.numberPad)
                     
                     TextField("Number of Checkboxes", text: $checkboxCount)
-                        .keyboardType(.numberPad)
+                       
                 }
                 
                 Section {
@@ -35,10 +34,6 @@ struct AddTaskView: View {
                     .disabled(taskName.isEmpty || taskPoints.isEmpty || checkboxCount.isEmpty)
                 }
             }
-            .navigationBarTitle("New Task", displayMode: .inline)
-            .navigationBarItems(leading: Button("Cancel") {
-                dismiss()
-            })
         }
     }
     
