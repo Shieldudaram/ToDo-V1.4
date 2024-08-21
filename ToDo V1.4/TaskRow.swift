@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TaskRow: View {
-    var task: Task
+    @ObservedObject var task: Task
     var viewModel: TaskViewModel
 
     var body: some View {
@@ -23,13 +23,13 @@ struct TaskRow: View {
                 }
                 .buttonStyle(BorderlessButtonStyle())
             }
-            
+
             Text(task.name)
                 .foregroundColor(.white)
-            
+
             Spacer()
-            
-            Text("\(task.points) pts")
+
+            Text("\(task.points * task.isCompleted.filter { $0 }.count) pts")
                 .foregroundColor(.yellow)
         }
         .padding(.horizontal, 20)

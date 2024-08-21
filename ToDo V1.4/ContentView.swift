@@ -104,20 +104,21 @@ struct ContentView: View {
     }
     
     var dailyListView: some View {
-        VStack(alignment: .leading) {
+        VStack {
             HStack {
+                Spacer()
                 Button(action: {
                     showAddTaskSheet = true
                 }) {
                     Text("Add Task")
                         .font(.headline)
                         .padding()
+                        .frame(maxWidth: .infinity)
                         .background(Color.green)
                         .foregroundColor(.white)
-                        .cornerRadius(8)
+                        .cornerRadius(10)
                 }
-                .padding([.leading, .top], 16)
-                
+                .padding([.leading, .trailing, .top], 16)
                 Spacer()
             }
 
