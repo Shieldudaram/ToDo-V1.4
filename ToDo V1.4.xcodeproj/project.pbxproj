@@ -19,6 +19,8 @@
 		6B4A36A52C74D58B009377AF /* TaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4A36A42C74D58B009377AF /* TaskViewModel.swift */; };
 		6B4A36A72C74D76C009377AF /* TaskRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4A36A62C74D76C009377AF /* TaskRow.swift */; };
 		6B4A36AB2C75224C009377AF /* AddTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4A36AA2C75224C009377AF /* AddTaskView.swift */; };
+		6BEE29B22C78234800A683AD /* BrainDumpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE29B12C78234800A683AD /* BrainDumpView.swift */; };
+		6BEE29B42C78286C00A683AD /* PriorityWindowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE29B32C78286C00A683AD /* PriorityWindowView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +57,8 @@
 		6B4A36A42C74D58B009377AF /* TaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskViewModel.swift; sourceTree = "<group>"; };
 		6B4A36A62C74D76C009377AF /* TaskRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRow.swift; sourceTree = "<group>"; };
 		6B4A36AA2C75224C009377AF /* AddTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskView.swift; sourceTree = "<group>"; };
+		6BEE29B12C78234800A683AD /* BrainDumpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrainDumpView.swift; sourceTree = "<group>"; };
+		6BEE29B32C78286C00A683AD /* PriorityWindowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityWindowView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,7 +110,9 @@
 			isa = PBXGroup;
 			children = (
 				6B4A36772C73F17D009377AF /* ContentView.swift */,
+				6BEE29B32C78286C00A683AD /* PriorityWindowView.swift */,
 				6B4A36AA2C75224C009377AF /* AddTaskView.swift */,
+				6BEE29B12C78234800A683AD /* BrainDumpView.swift */,
 				6B4A36752C73F17D009377AF /* ToDo_V1_4App.swift */,
 				6B4A36A62C74D76C009377AF /* TaskRow.swift */,
 				6B4A36A42C74D58B009377AF /* TaskViewModel.swift */,
@@ -277,7 +283,9 @@
 				6B4A36A32C74D3BA009377AF /* Task.swift in Sources */,
 				6B4A36AB2C75224C009377AF /* AddTaskView.swift in Sources */,
 				6B4A36782C73F17D009377AF /* ContentView.swift in Sources */,
+				6BEE29B22C78234800A683AD /* BrainDumpView.swift in Sources */,
 				6B4A367A2C73F17D009377AF /* Item.swift in Sources */,
+				6BEE29B42C78286C00A683AD /* PriorityWindowView.swift in Sources */,
 				6B4A36A72C74D76C009377AF /* TaskRow.swift in Sources */,
 				6B4A36A52C74D58B009377AF /* TaskViewModel.swift in Sources */,
 				6B4A36762C73F17D009377AF /* ToDo_V1_4App.swift in Sources */,

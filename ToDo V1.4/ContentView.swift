@@ -17,6 +17,8 @@ struct ContentView: View {
     @State private var showTimeBlock = false
     @State private var showAddTaskSheet = false
 
+    @State private var brainDumpWords: [String] = []
+
     private let backgroundColor = Color.blue
 
     var body: some View {
@@ -26,9 +28,10 @@ struct ContentView: View {
             if showDailyList {
                 dailyListView
             } else if showBrainDump {
-                brainDumpView
+                BrainDumpView(brainDumpWords: $brainDumpWords, onMainScreen: resetView)
+                
             } else if showPriorityWindow {
-                priorityWindowView
+                PriorityWindowView(brainDumpWords: brainDumpWords, onMainScreen: resetView)
             } else if showTimeBlock {
                 timeBlockView
             } else {
@@ -147,29 +150,22 @@ struct ContentView: View {
         .background(backgroundColor.edgesIgnoringSafeArea(.all))
     }
     
-    var brainDumpView: some View {
-        VStack {
-            // Placeholder for Brain Dump content
-            
-            Spacer()
-            
-            Button(action: resetView) {
-                Text("Main Screen")
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.white)
-                    .foregroundColor(.black)
-                    .cornerRadius(10)
-            }
-            .padding(.horizontal, 30)
-            .padding(.bottom, 50)
-        }
-        .background(backgroundColor.edgesIgnoringSafeArea(.all))
-    }
-    
     var priorityWindowView: some View {
         VStack {
-            // Placeholder for Priority Window content
+            // Display the words at the top of the screen with a background color
+            ScrollView(.horizontal) {
+                HStack(spacing: 10) {
+                    ForEach(brainDumpWords, id: \.self) { word in
+                        Text(word)
+                            .padding(8)
+                            .background(Color.white.opacity(0.8))
+                            .cornerRadius(8)
+                            .foregroundColor(.black)
+                    }
+                }
+                .padding()
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
             
             Spacer()
             
