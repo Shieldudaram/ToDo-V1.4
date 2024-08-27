@@ -9,35 +9,31 @@ import SwiftUI
 import Combine
 
 class TaskViewModel: ObservableObject {
-    @Published var tasks: [Task] = [] {
-        didSet {
-            saveTasks()
-        }
-    }
-
-    private let tasksKey = "savedTasks"
-
-    init() {
-        loadTasks()
-    }
+    @Published var tasks: [Task] = []
 
     func addTask(name: String, points: Int, checkboxes: Int) {
         let newTask = Task(name: name, points: points, isCompleted: Array(repeating: false, count: checkboxes))
         tasks.append(newTask)
+        saveTasks()
     }
 
     func toggleTaskCompletion(task: Task, atIndex index: Int) {
         if let taskIndex = tasks.firstIndex(where: { $0.id == task.id }) {
             tasks[taskIndex].isCompleted[index].toggle()
-            saveTasks()
         }
+        saveTasks()
+    }
+
+    func deleteTask(task: Task) {
+        tasks.removeAll { $0.id == task.id }
+        saveTasks()
     }
 
     func calculateTotalScore() -> Int {
-        return tasks.reduce(0) { total, task in
-            let completedPoints = task.isCompleted.filter { $0 }.count * task.points
-            return total + completedPoints
-        }
+        return tasks.flatMap { $0.isCompleted }
+            .filter { $0 }
+            .map { $0 ? 1 : 0 } // Adjust this line if the scoring logic differs
+            .reduce(0, +)
     }
 
     func getMedievalTitle() -> String {
@@ -52,22 +48,27 @@ class TaskViewModel: ObservableObject {
         }
     }
 
+    // Persistence methods
     private func saveTasks() {
         do {
             let data = try JSONEncoder().encode(tasks)
-            UserDefaults.standard.set(data, forKey: tasksKey)
+            UserDefaults.standard.set(data, forKey: "tasks")
         } catch {
             print("Failed to save tasks: \(error)")
         }
     }
 
-    private func loadTasks() {
-        if let data = UserDefaults.standard.data(forKey: tasksKey) {
+    func loadTasks() {
+        if let data = UserDefaults.standard.data(forKey: "tasks") {
             do {
                 tasks = try JSONDecoder().decode([Task].self, from: data)
             } catch {
                 print("Failed to load tasks: \(error)")
             }
         }
+    }
+
+    init() {
+        loadTasks()
     }
 }

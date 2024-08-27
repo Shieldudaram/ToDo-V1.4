@@ -128,7 +128,9 @@ struct ContentView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 10) {
                     ForEach(viewModel.tasks) { task in
-                        TaskRow(task: task, viewModel: viewModel)
+                        TaskRow(task: task, viewModel: viewModel) {
+                            viewModel.deleteTask(task: task)
+                        }
                     }
                 }
                 .padding(.top, 20)
@@ -149,6 +151,7 @@ struct ContentView: View {
         }
         .background(backgroundColor.edgesIgnoringSafeArea(.all))
     }
+
     
     var priorityWindowView: some View {
         VStack {

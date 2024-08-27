@@ -8,31 +8,36 @@
 import SwiftUI
 
 struct TaskRow: View {
-    @ObservedObject var task: Task
+    var task: Task
     var viewModel: TaskViewModel
+    var onDelete: () -> Void // Closure for handling deletion
 
     var body: some View {
         HStack {
-            // Loop through the checkboxes and display each one
-            ForEach(0..<task.isCompleted.count, id: \.self) { index in
-                Button(action: {
-                    viewModel.toggleTaskCompletion(task: task, atIndex: index)
-                }) {
-                    Image(systemName: task.isCompleted[index] ? "checkmark.square.fill" : "square")
-                        .foregroundColor(task.isCompleted[index] ? .green : .white)
-                }
-                .buttonStyle(BorderlessButtonStyle())
+            Button(action: {
+                viewModel.toggleTaskCompletion(task: task, atIndex: 0)
+            }) {
+                Image(systemName: task.isCompleted.first == true ? "checkmark.square.fill" : "square")
+                    .foregroundColor(task.isCompleted.first == true ? .green : .white)
             }
-
+            .buttonStyle(BorderlessButtonStyle())
+            
             Text(task.name)
                 .foregroundColor(.white)
-
+            
             Spacer()
-
-            Text("\(task.points * task.isCompleted.filter { $0 }.count) pts")
+            
+            Text("\(task.points) pts")
                 .foregroundColor(.yellow)
+            
+            Button(action: onDelete) { // Button for deleting the task
+                Image(systemName: "xmark.circle")
+                    .foregroundColor(.red)
+            }
+            .buttonStyle(BorderlessButtonStyle())
         }
         .padding(.horizontal, 20)
         .background(Color.clear)
     }
 }
+
