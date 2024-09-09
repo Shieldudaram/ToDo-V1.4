@@ -4,16 +4,24 @@ struct TaskRow: View {
     @Binding var task: Task
     var onDelete: () -> Void
 
+    let columns = [
+        GridItem(.adaptive(minimum: 40)) // Adjust the minimum value accordingly
+    ]
+
     var body: some View {
         HStack {
-            ForEach(task.isCompleted.indices, id: \.self) { index in
-                Toggle("", isOn: $task.isCompleted[index])
-                    .toggleStyle(CheckboxToggleStyle())
-                    .frame(width: 40)
+            LazyVGrid(columns: columns, spacing: 10) {
+                ForEach(task.isCompleted.indices, id: \.self) { index in
+                    Toggle("", isOn: $task.isCompleted[index])
+                        .toggleStyle(CheckboxToggleStyle())
+                        .frame(width: 40)
+                }
             }
+            .frame(maxWidth: 200) // Set a max width to prevent overflow
 
             Text(task.name)
                 .foregroundColor(.white)
+                .padding(.leading, 8)
 
             Spacer()
 
