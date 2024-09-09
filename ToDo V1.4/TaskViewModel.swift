@@ -24,10 +24,9 @@ class TaskViewModel: ObservableObject {
     }
 
     func calculateTotalScore() -> Int {
-        return tasks.flatMap { $0.isCompleted }
-            .filter { $0 }
-            .map { $0 ? 1 : 0 }
-            .reduce(0, +)
+        return tasks.map { task in
+            task.isCompleted.filter { $0 }.count * task.points
+        }.reduce(0, +)
     }
 
     func getMedievalTitle() -> String {
