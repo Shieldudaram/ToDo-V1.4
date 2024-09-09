@@ -37,7 +37,7 @@ struct BrainDumpView: View {
                 .padding()
                 .background(Color.white)
                 .cornerRadius(10)
-                .foregroundColor(.black)
+                .foregroundColor(.white)
                 .padding(.horizontal, 20)
                 .padding(.bottom, 20)  // Adjust padding to move it closer to the menu button
 
