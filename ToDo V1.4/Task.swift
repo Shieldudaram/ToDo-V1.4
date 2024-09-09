@@ -1,10 +1,3 @@
-//
-//  Task.swift
-//  ToDo V1.4
-//
-//  Created by Chris Jennison on 8/20/24.
-//
-
 import Foundation
 
 class Task: Identifiable, ObservableObject, Codable {
