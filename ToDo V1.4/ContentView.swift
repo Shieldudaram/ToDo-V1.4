@@ -1,11 +1,3 @@
-//
-//  ContentView.swift
-//  ToDo V1.4
-//
-//  Created by Chris Jennison on 8/19/24.
-//
-//
-
 import SwiftUI
 
 struct ContentView: View {
@@ -24,12 +16,11 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             backgroundColor.edgesIgnoringSafeArea(.all)
-            
+
             if showDailyList {
                 dailyListView
             } else if showBrainDump {
                 BrainDumpView(brainDumpWords: $brainDumpWords, onMainScreen: resetView)
-                
             } else if showPriorityWindow {
                 PriorityWindowView(brainDumpWords: brainDumpWords, onMainScreen: resetView)
             } else if showTimeBlock {
@@ -42,20 +33,20 @@ struct ContentView: View {
             AddTaskView(viewModel: viewModel)
         }
     }
-    
+
     var mainScreen: some View {
         VStack {
             Text("Points: \(viewModel.calculateTotalScore())")
                 .font(.largeTitle)
                 .foregroundColor(.white)
-            
+
             Text(viewModel.getMedievalTitle())
                 .font(.title)
                 .foregroundColor(.white)
                 .padding(.top, 10)
-            
+
             Spacer()
-            
+
             VStack(spacing: 20) {
                 Button(action: {
                     showDailyList = true
@@ -67,7 +58,7 @@ struct ContentView: View {
                         .foregroundColor(.black)
                         .cornerRadius(10)
                 }
-                
+
                 Button(action: {
                     showBrainDump = true
                 }) {
@@ -78,7 +69,7 @@ struct ContentView: View {
                         .foregroundColor(.black)
                         .cornerRadius(10)
                 }
-                
+
                 Button(action: {
                     showPriorityWindow = true
                 }) {
@@ -89,7 +80,7 @@ struct ContentView: View {
                         .foregroundColor(.black)
                         .cornerRadius(10)
                 }
-                
+
                 Button(action: {
                     showTimeBlock = true
                 }) {
@@ -105,7 +96,7 @@ struct ContentView: View {
             .padding(.bottom, 50)
         }
     }
-    
+
     var dailyListView: some View {
         VStack {
             HStack {
@@ -127,17 +118,17 @@ struct ContentView: View {
 
             ScrollView {
                 VStack(alignment: .leading, spacing: 10) {
-                    ForEach(viewModel.tasks) { task in
-                        TaskRow(task: task, viewModel: viewModel) {
+                    ForEach($viewModel.tasks) { $task in
+                        TaskRow(task: $task, viewModel: viewModel) {
                             viewModel.deleteTask(task: task)
                         }
                     }
                 }
                 .padding(.top, 20)
             }
-            
+
             Spacer()
-            
+
             Button(action: resetView) {
                 Text("Main Screen")
                     .frame(maxWidth: .infinity)
@@ -152,10 +143,8 @@ struct ContentView: View {
         .background(backgroundColor.edgesIgnoringSafeArea(.all))
     }
 
-    
     var priorityWindowView: some View {
         VStack {
-            // Display the words at the top of the screen with a background color
             ScrollView(.horizontal) {
                 HStack(spacing: 10) {
                     ForEach(brainDumpWords, id: \.self) { word in
@@ -169,9 +158,9 @@ struct ContentView: View {
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
-            
+
             Spacer()
-            
+
             Button(action: resetView) {
                 Text("Main Screen")
                     .frame(maxWidth: .infinity)
@@ -185,13 +174,11 @@ struct ContentView: View {
         }
         .background(backgroundColor.edgesIgnoringSafeArea(.all))
     }
-    
+
     var timeBlockView: some View {
         VStack {
-            // Placeholder for Time Block content
-            
             Spacer()
-            
+
             Button(action: resetView) {
                 Text("Main Screen")
                     .frame(maxWidth: .infinity)
@@ -205,7 +192,7 @@ struct ContentView: View {
         }
         .background(backgroundColor.edgesIgnoringSafeArea(.all))
     }
-    
+
     private func resetView() {
         showDailyList = false
         showBrainDump = false

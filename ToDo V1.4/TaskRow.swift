@@ -1,14 +1,7 @@
-//
-//  TaskRow.swift
-//  ToDo V1.4
-//
-//  Created by Chris Jennison on 8/20/24.
-//
-
 import SwiftUI
 
 struct TaskRow: View {
-    var task: Task
+    @Binding var task: Task
     var viewModel: TaskViewModel
     var onDelete: () -> Void // Closure for handling deletion
 
@@ -21,15 +14,15 @@ struct TaskRow: View {
                     .foregroundColor(task.isCompleted.first == true ? .green : .white)
             }
             .buttonStyle(BorderlessButtonStyle())
-            
+
             Text(task.name)
                 .foregroundColor(.white)
-            
+
             Spacer()
-            
+
             Text("\(task.points) pts")
                 .foregroundColor(.yellow)
-            
+
             Button(action: onDelete) { // Button for deleting the task
                 Image(systemName: "xmark.circle")
                     .foregroundColor(.red)
@@ -40,4 +33,3 @@ struct TaskRow: View {
         .background(Color.clear)
     }
 }
-
