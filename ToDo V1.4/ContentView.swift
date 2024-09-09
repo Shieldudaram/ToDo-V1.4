@@ -39,7 +39,6 @@ struct ContentView: View {
             Text("Points: \(viewModel.calculateTotalScore())")
                 .font(.largeTitle)
                 .foregroundColor(.white)
-
             Text(viewModel.getMedievalTitle())
                 .font(.title)
                 .foregroundColor(.white)
@@ -58,7 +57,6 @@ struct ContentView: View {
                         .foregroundColor(.black)
                         .cornerRadius(10)
                 }
-
                 Button(action: {
                     showBrainDump = true
                 }) {
@@ -69,7 +67,6 @@ struct ContentView: View {
                         .foregroundColor(.black)
                         .cornerRadius(10)
                 }
-
                 Button(action: {
                     showPriorityWindow = true
                 }) {
@@ -80,7 +77,6 @@ struct ContentView: View {
                         .foregroundColor(.black)
                         .cornerRadius(10)
                 }
-
                 Button(action: {
                     showTimeBlock = true
                 }) {
@@ -119,7 +115,7 @@ struct ContentView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 10) {
                     ForEach($viewModel.tasks) { $task in
-                        TaskRow(task: $task, viewModel: viewModel) {
+                        TaskRow(task: $task) {
                             viewModel.deleteTask(task: task)
                         }
                     }

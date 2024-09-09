@@ -14,6 +14,7 @@ class TaskViewModel: ObservableObject {
         if let taskIndex = tasks.firstIndex(where: { $0.id == task.id }) {
             tasks[taskIndex].isCompleted[index].toggle()
         }
+        objectWillChange.send() // Ensure the view updates immediately
         saveTasks()
     }
 
@@ -25,7 +26,7 @@ class TaskViewModel: ObservableObject {
     func calculateTotalScore() -> Int {
         return tasks.flatMap { $0.isCompleted }
             .filter { $0 }
-            .map { $0 ? 1 : 0 } 
+            .map { $0 ? 1 : 0 }
             .reduce(0, +)
     }
 

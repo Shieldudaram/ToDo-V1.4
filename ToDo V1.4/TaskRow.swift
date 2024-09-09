@@ -2,18 +2,13 @@ import SwiftUI
 
 struct TaskRow: View {
     @Binding var task: Task
-    var viewModel: TaskViewModel
-    var onDelete: () -> Void // Closure for handling deletion
+    var onDelete: () -> Void
 
     var body: some View {
         HStack {
-            Button(action: {
-                viewModel.toggleTaskCompletion(task: task, atIndex: 0)
-            }) {
-                Image(systemName: task.isCompleted.first == true ? "checkmark.square.fill" : "square")
-                    .foregroundColor(task.isCompleted.first == true ? .green : .white)
-            }
-            .buttonStyle(BorderlessButtonStyle())
+            Toggle("", isOn: $task.isCompleted[0])
+                .toggleStyle(CheckboxToggleStyle())
+                .frame(width: 40)
 
             Text(task.name)
                 .foregroundColor(.white)
@@ -23,7 +18,7 @@ struct TaskRow: View {
             Text("\(task.points) pts")
                 .foregroundColor(.yellow)
 
-            Button(action: onDelete) { // Button for deleting the task
+            Button(action: onDelete) { 
                 Image(systemName: "xmark.circle")
                     .foregroundColor(.red)
             }
@@ -31,5 +26,18 @@ struct TaskRow: View {
         }
         .padding(.horizontal, 20)
         .background(Color.clear)
+    }
+}
+
+struct CheckboxToggleStyle: ToggleStyle {
+    func makeBody(configuration: Self.Configuration) -> some View {
+        Button(action: {
+            configuration.isOn.toggle()
+        }) {
+            Image(systemName: configuration.isOn ? "checkmark.square.fill" : "square")
+                .foregroundColor(configuration.isOn ? .green : .white)
+                .imageScale(.large)
+        }
+        .buttonStyle(PlainButtonStyle())
     }
 }
