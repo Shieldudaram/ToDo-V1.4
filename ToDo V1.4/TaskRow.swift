@@ -6,9 +6,11 @@ struct TaskRow: View {
 
     var body: some View {
         HStack {
-            Toggle("", isOn: $task.isCompleted[0])
-                .toggleStyle(CheckboxToggleStyle())
-                .frame(width: 40)
+            ForEach(task.isCompleted.indices, id: \.self) { index in
+                Toggle("", isOn: $task.isCompleted[index])
+                    .toggleStyle(CheckboxToggleStyle())
+                    .frame(width: 40)
+            }
 
             Text(task.name)
                 .foregroundColor(.white)
