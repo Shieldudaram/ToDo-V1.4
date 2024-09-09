@@ -1,10 +1,3 @@
-//
-//  TaskViewModel.swift
-//  ToDo V1.4
-//
-//  Created by Chris Jennison on 8/20/24.
-//
-
 import SwiftUI
 import Combine
 
@@ -32,7 +25,7 @@ class TaskViewModel: ObservableObject {
     func calculateTotalScore() -> Int {
         return tasks.flatMap { $0.isCompleted }
             .filter { $0 }
-            .map { $0 ? 1 : 0 } // Adjust this line if the scoring logic differs
+            .map { $0 ? 1 : 0 } 
             .reduce(0, +)
     }
 
