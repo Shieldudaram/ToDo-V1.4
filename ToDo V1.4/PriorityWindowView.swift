@@ -1,8 +1,19 @@
+//
+//  PriorityWindowView.swift
+//  ToDo V1.4
+//
+//  Created by Chris Jennison on 8/22/24.
+//
+
 import SwiftUI
 
-extension ContentView {
-    var priorityWindowView: some View {
+struct PriorityWindowView: View {
+    var brainDumpWords: [String]
+    var onMainScreen: () -> Void
+
+    var body: some View {
         VStack {
+            // Display the words at the top of the screen with a background color
             ScrollView(.horizontal) {
                 HStack(spacing: 10) {
                     ForEach(brainDumpWords, id: \.self) { word in
@@ -16,25 +27,11 @@ extension ContentView {
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
-
+            
             Spacer()
-
-            HStack(spacing: 10) {
-                VStack(spacing: 10) {
-                    HStack(spacing: 10) {
-                        PrioritySection(label: "Need & Now", color: .red)
-                        PrioritySection(label: "Need & Later", color: .blue)
-                    }
-                    HStack(spacing: 10) {
-                        PrioritySection(label: "Want & Now", color: .green)
-                        PrioritySection(label: "Want & Later", color: .yellow)
-                    }
-                }
-                .frame(maxWidth: .infinity, maxHeight: 200)
-            }
-            .padding()
-
-            Button(action: resetView) {
+            
+            // Button to return to the main screen
+            Button(action: onMainScreen) {
                 Text("Main Screen")
                     .frame(maxWidth: .infinity)
                     .padding()
@@ -45,6 +42,6 @@ extension ContentView {
             .padding(.horizontal, 30)
             .padding(.bottom, 50)
         }
-        .background(backgroundColor.edgesIgnoringSafeArea(.all))
+        .background(Color.blue.edgesIgnoringSafeArea(.all))
     }
 }

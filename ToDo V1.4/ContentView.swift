@@ -22,7 +22,7 @@ struct ContentView: View {
             } else if showBrainDump {
                 BrainDumpView(brainDumpWords: $brainDumpWords, onMainScreen: resetView)
             } else if showPriorityWindow {
-                priorityWindowView
+                PriorityWindowView(brainDumpWords: brainDumpWords, onMainScreen: resetView)
             } else if showTimeBlock {
                 timeBlockView
             } else {
@@ -156,21 +156,6 @@ struct ContentView: View {
             }
 
             Spacer()
-
-            HStack(spacing: 10) {
-                VStack(spacing: 10) {
-                    HStack(spacing: 10) {
-                        PrioritySection(label: "Need & Now", color: Color.red)
-                        PrioritySection(label: "Need & Later", color: Color.blue)
-                    }
-                    HStack(spacing: 10) {
-                        PrioritySection(label: "Want & Now", color: Color.green)
-                        PrioritySection(label: "Want & Later", color: Color.yellow)
-                    }
-                }
-                .frame(maxWidth: .infinity, maxHeight: 200)
-            }
-            .padding()
 
             Button(action: resetView) {
                 Text("Main Screen")
