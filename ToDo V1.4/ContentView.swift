@@ -160,12 +160,12 @@ struct ContentView: View {
             HStack(spacing: 10) {
                 VStack(spacing: 10) {
                     HStack(spacing: 10) {
-                        PrioritySection(label: "Need & Now", color: .red)
-                        PrioritySection(label: "Need & Later", color: .blue)
+                        PrioritySection(label: "Need & Now", color: Color.red)
+                        PrioritySection(label: "Need & Later", color: Color.blue)
                     }
                     HStack(spacing: 10) {
-                        PrioritySection(label: "Want & Now", color: .green)
-                        PrioritySection(label: "Want & Later", color: .yellow)
+                        PrioritySection(label: "Want & Now", color: Color.green)
+                        PrioritySection(label: "Want & Later", color: Color.yellow)
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: 200)
@@ -214,4 +214,4 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-} 
+}
