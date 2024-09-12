@@ -4,13 +4,15 @@ struct PriorityWindowView: View {
     var brainDumpWords: [String]
     var onMainScreen: () -> Void
     @State private var selectedSection: String?
-    @Binding var sortedTerms: [String: [String]] // a dictionary to hold sorted terms
+    @Binding var sortedTerms: [String: [String]]
 
     var body: some View {
         VStack {
             ScrollView(.horizontal) {
                 HStack(spacing: 10) {
-                    ForEach(brainDumpWords, id: \.self) { word in
+                    ForEach(brainDumpWords.filter { word in
+                        !sortedTerms.values.joined().contains(word)
+                    }, id: \.self) { word in
                         Text(word)
                             .padding(8)
                             .background(Color.white.opacity(0.8))
@@ -36,7 +38,7 @@ struct PriorityWindowView: View {
                             .onTapGesture {
                                 selectedSection = "Need & Now"
                             }
-                        PrioritySection(label: "Need & Later", color: .blue, isSelected: selectedSection == "Need & Later")
+                        PrioritySection(label: "Need & Later", color: .orange, isSelected: selectedSection == "Need & Later")
                             .onTapGesture {
                                 selectedSection = "Need & Later"
                             }

@@ -10,6 +10,7 @@ struct ContentView: View {
     @State private var showAddTaskSheet = false
 
     @State private var brainDumpWords: [String] = []
+
     @State private var sortedTerms: [String: [String]] = [:]
 
     private let backgroundColor = Color.blue
@@ -143,17 +144,32 @@ struct ContentView: View {
     var timeBlockView: some View {
         VStack {
             ScrollView {
-                ForEach(["Need & Now", "Need & Later", "Want & Now", "Want & Later"], id: \.self) { section in
-                    if let terms = sortedTerms[section], !terms.isEmpty {
-                        ForEach(terms, id: \.self) { term in
-                            Text(term)
-                                .padding(8)
-                                .background(getColor(for: section))
-                                .cornerRadius(8)
-                                .foregroundColor(.white)
-                                .padding(.horizontal, 10)
+                HStack {
+                    VStack(alignment: .leading) {
+                        ForEach(0..<24) { hour in
+                            Text("\(hour % 12 == 0 ? 12 : hour % 12) \(hour < 12 ? "am" : "pm")")
+                                .padding(.vertical, 8)
+                                .frame(maxWidth: .infinity, alignment: .leading)
                         }
                     }
+                    .frame(maxWidth: 100)
+                    .padding()
+
+                    VStack(alignment: .leading) {
+                        ForEach(["Need & Now", "Need & Later", "Want & Now", "Want & Later"], id: \.self) { section in
+                            if let terms = sortedTerms[section], !terms.isEmpty {
+                                ForEach(terms, id: \.self) { term in
+                                    Text(term)
+                                        .padding(8)
+                                        .background(getColor(for: section))
+                                        .cornerRadius(8)
+                                        .foregroundColor(.white)
+                                        .padding(.horizontal, 10)
+                                }
+                            }
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .trailing)
                 }
             }
 
@@ -176,7 +192,7 @@ struct ContentView: View {
     private func getColor(for section: String) -> Color {
         switch section {
         case "Need & Now": return .red
-        case "Need & Later": return .blue
+        case "Need & Later": return .orange
         case "Want & Now": return .green
         case "Want & Later": return .yellow
         default: return .gray
