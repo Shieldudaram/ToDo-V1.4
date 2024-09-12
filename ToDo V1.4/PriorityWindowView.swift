@@ -1,10 +1,3 @@
-//
-//  PriorityWindowView.swift
-//  ToDo V1.4
-//
-//  Created by Chris Jennison on 8/22/24.
-//
-
 import SwiftUI
 
 struct PriorityWindowView: View {
@@ -13,7 +6,6 @@ struct PriorityWindowView: View {
 
     var body: some View {
         VStack {
-            // Display the words at the top of the screen with a background color
             ScrollView(.horizontal) {
                 HStack(spacing: 10) {
                     ForEach(brainDumpWords, id: \.self) { word in
@@ -27,10 +19,24 @@ struct PriorityWindowView: View {
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
-            
+
             Spacer()
-            
-            // Button to return to the main screen
+
+            HStack(spacing: 10) {
+                VStack(spacing: 10) {
+                    HStack(spacing: 10) {
+                        PrioritySection(label: "Need & Now", color: Color.red)
+                        PrioritySection(label: "Need & Later", color: Color.blue)
+                    }
+                    HStack(spacing: 10) {
+                        PrioritySection(label: "Want & Now", color: Color.green)
+                        PrioritySection(label: "Want & Later", color: Color.yellow)
+                    }
+                }
+                .frame(maxWidth: .infinity, maxHeight: 200)
+            }
+            .padding()
+
             Button(action: onMainScreen) {
                 Text("Main Screen")
                     .frame(maxWidth: .infinity)
@@ -44,4 +50,8 @@ struct PriorityWindowView: View {
         }
         .background(Color.blue.edgesIgnoringSafeArea(.all))
     }
+}
+
+#Preview {
+    PriorityWindowView(brainDumpWords: ["Example"], onMainScreen: {})
 }

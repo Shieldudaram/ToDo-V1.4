@@ -29,9 +29,9 @@ struct ContentView: View {
                 mainScreen
             }
         }
-        .sheet(isPresented: $showAddTaskSheet) {
-            AddTaskView(viewModel: viewModel)
-        }
+            .sheet(isPresented: $showAddTaskSheet) {
+                AddTaskView(viewModel: viewModel)
+            }
     }
 
     var mainScreen: some View {
@@ -121,38 +121,6 @@ struct ContentView: View {
                     }
                 }
                 .padding(.top, 20)
-            }
-
-            Spacer()
-
-            Button(action: resetView) {
-                Text("Main Screen")
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.white)
-                    .foregroundColor(.black)
-                    .cornerRadius(10)
-            }
-            .padding(.horizontal, 30)
-            .padding(.bottom, 50)
-        }
-        .background(backgroundColor.edgesIgnoringSafeArea(.all))
-    }
-
-    var priorityWindowView: some View {
-        VStack {
-            ScrollView(.horizontal) {
-                HStack(spacing: 10) {
-                    ForEach(brainDumpWords, id: \.self) { word in
-                        Text(word)
-                            .padding(8)
-                            .background(Color.white.opacity(0.8))
-                            .cornerRadius(8)
-                            .foregroundColor(.black)
-                    }
-                }
-                .padding()
-                .frame(maxWidth: .infinity, alignment: .leading)
             }
 
             Spacer()
