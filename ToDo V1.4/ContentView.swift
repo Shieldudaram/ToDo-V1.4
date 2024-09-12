@@ -10,6 +10,7 @@ struct ContentView: View {
     @State private var showAddTaskSheet = false
 
     @State private var brainDumpWords: [String] = []
+    @State private var sortedTerms: [String: [String]] = [:]
 
     private let backgroundColor = Color.blue
 
@@ -22,16 +23,16 @@ struct ContentView: View {
             } else if showBrainDump {
                 BrainDumpView(brainDumpWords: $brainDumpWords, onMainScreen: resetView)
             } else if showPriorityWindow {
-                PriorityWindowView(brainDumpWords: brainDumpWords, onMainScreen: resetView)
+                PriorityWindowView(brainDumpWords: brainDumpWords, onMainScreen: resetView, sortedTerms: $sortedTerms)
             } else if showTimeBlock {
                 timeBlockView
             } else {
                 mainScreen
             }
         }
-            .sheet(isPresented: $showAddTaskSheet) {
-                AddTaskView(viewModel: viewModel)
-            }
+        .sheet(isPresented: $showAddTaskSheet) {
+            AddTaskView(viewModel: viewModel)
+        }
     }
 
     var mainScreen: some View {
@@ -141,6 +142,21 @@ struct ContentView: View {
 
     var timeBlockView: some View {
         VStack {
+            ScrollView {
+                ForEach(["Need & Now", "Need & Later", "Want & Now", "Want & Later"], id: \.self) { section in
+                    if let terms = sortedTerms[section], !terms.isEmpty {
+                        ForEach(terms, id: \.self) { term in
+                            Text(term)
+                                .padding(8)
+                                .background(getColor(for: section))
+                                .cornerRadius(8)
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 10)
+                        }
+                    }
+                }
+            }
+
             Spacer()
 
             Button(action: resetView) {
@@ -155,6 +171,16 @@ struct ContentView: View {
             .padding(.bottom, 50)
         }
         .background(backgroundColor.edgesIgnoringSafeArea(.all))
+    }
+
+    private func getColor(for section: String) -> Color {
+        switch section {
+        case "Need & Now": return .red
+        case "Need & Later": return .blue
+        case "Want & Now": return .green
+        case "Want & Later": return .yellow
+        default: return .gray
+        }
     }
 
     private func resetView() {

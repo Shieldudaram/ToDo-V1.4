@@ -3,6 +3,8 @@ import SwiftUI
 struct PriorityWindowView: View {
     var brainDumpWords: [String]
     var onMainScreen: () -> Void
+    @State private var selectedSection: String?
+    @Binding var sortedTerms: [String: [String]] // a dictionary to hold sorted terms
 
     var body: some View {
         VStack {
@@ -14,6 +16,11 @@ struct PriorityWindowView: View {
                             .background(Color.white.opacity(0.8))
                             .cornerRadius(8)
                             .foregroundColor(.black)
+                            .onTapGesture {
+                                if let section = selectedSection {
+                                    sortedTerms[section, default: []].append(word)
+                                }
+                            }
                     }
                 }
                 .padding()
@@ -25,12 +32,24 @@ struct PriorityWindowView: View {
             HStack(spacing: 10) {
                 VStack(spacing: 10) {
                     HStack(spacing: 10) {
-                        PrioritySection(label: "Need & Now", color: Color.red)
-                        PrioritySection(label: "Need & Later", color: Color.blue)
+                        PrioritySection(label: "Need & Now", color: .red, isSelected: selectedSection == "Need & Now")
+                            .onTapGesture {
+                                selectedSection = "Need & Now"
+                            }
+                        PrioritySection(label: "Need & Later", color: .blue, isSelected: selectedSection == "Need & Later")
+                            .onTapGesture {
+                                selectedSection = "Need & Later"
+                            }
                     }
                     HStack(spacing: 10) {
-                        PrioritySection(label: "Want & Now", color: Color.green)
-                        PrioritySection(label: "Want & Later", color: Color.yellow)
+                        PrioritySection(label: "Want & Now", color: .green, isSelected: selectedSection == "Want & Now")
+                            .onTapGesture {
+                                selectedSection = "Want & Now"
+                            }
+                        PrioritySection(label: "Want & Later", color: .yellow, isSelected: selectedSection == "Want & Later")
+                            .onTapGesture {
+                                selectedSection = "Want & Later"
+                            }
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: 200)
@@ -53,5 +72,5 @@ struct PriorityWindowView: View {
 }
 
 #Preview {
-    PriorityWindowView(brainDumpWords: ["Example"], onMainScreen: {})
+    PriorityWindowView(brainDumpWords: ["Example"], onMainScreen: {}, sortedTerms: .constant([:]))
 }
