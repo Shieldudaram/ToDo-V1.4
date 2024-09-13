@@ -144,7 +144,10 @@ struct ContentView: View {
     }
 
     var timeBlockView: some View {
-        TimeBlockView(sortedTerms: $viewModel.sortedTerms, onMainScreen: resetView)
+        TimeBlockView(
+            sortedTerms: $viewModel.sortedTerms,
+            onMainScreen: resetView
+        )
     }
 
     private func resetView() {

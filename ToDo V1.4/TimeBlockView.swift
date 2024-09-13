@@ -10,9 +10,9 @@ struct TimeBlockView: View {
     var body: some View {
         VStack {
             ScrollView {
-                HStack {
-                    VStack(alignment: .leading) {
-                        ForEach(times, id: \.self) { time in
+                VStack {
+                    ForEach(times, id: \.self) { time in
+                        HStack {
                             Text(time)
                                 .padding(.vertical, 8)
                                 .background(selectedTime == time ? Color.gray : Color.clear)
@@ -20,32 +20,24 @@ struct TimeBlockView: View {
                                     selectedTime = time
                                 }
                                 .frame(maxWidth: .infinity, alignment: .leading)
-                        }
-                    }
-                    .frame(maxWidth: 100)
-                    .padding()
 
-                    VStack(alignment: .leading) {
-                        ForEach(["Need & Now", "Need & Later", "Want & Now", "Want & Later"], id: \.self) { section in
-                            if let terms = sortedTerms[section], !terms.isEmpty {
-                                ForEach(terms, id: \.self) { term in
-                                    Text(term)
-                                        .padding(8)
-                                        .background(getColor(for: section))
-                                        .cornerRadius(8)
-                                        .foregroundColor(.white)
-                                        .padding(.horizontal, 10)
-                                        .onTapGesture {
-                                            if let time = selectedTime {
-                                                termsAtTime[time, default: [:]][section, default: []].append(term)
-                                                sortedTerms[section]?.removeAll { $0 == term }
-                                            }
+                            VStack(alignment: .leading) {
+                                if let timeTerms = termsAtTime[time] {
+                                    ForEach(timeTerms.keys.sorted(), id: \.self) { section in
+                                        ForEach(timeTerms[section]!, id: \.self) { term in
+                                            Text(term)
+                                                .padding(8)
+                                                .background(getColor(for: section))
+                                                .cornerRadius(8)
+                                                .foregroundColor(.white)
+                                                .padding(.horizontal, 10)
                                         }
+                                    }
                                 }
                             }
+                            .frame(maxWidth: .infinity, alignment: .trailing)
                         }
                     }
-                    .frame(maxWidth: .infinity, alignment: .trailing)
                 }
             }
 
