@@ -10,8 +10,7 @@ struct ContentView: View {
     @State private var showAddTaskSheet = false
 
     @State private var brainDumpWords: [String] = []
-
-    @State private var sortedTerms: [String: [String]] = [:]
+    @State private var termsAtTime: [String: [String: [String]]] = [:] // [time: [section: [terms]]]
 
     private let backgroundColor = Color.blue
 
@@ -24,7 +23,7 @@ struct ContentView: View {
             } else if showBrainDump {
                 BrainDumpView(brainDumpWords: $brainDumpWords, onMainScreen: resetView)
             } else if showPriorityWindow {
-                PriorityWindowView(brainDumpWords: brainDumpWords, onMainScreen: resetView, sortedTerms: $sortedTerms)
+                PriorityWindowView(brainDumpWords: brainDumpWords, onMainScreen: resetView, sortedTerms: $viewModel.sortedTerms)
             } else if showTimeBlock {
                 timeBlockView
             } else {
@@ -33,6 +32,9 @@ struct ContentView: View {
         }
         .sheet(isPresented: $showAddTaskSheet) {
             AddTaskView(viewModel: viewModel)
+        }
+        .onDisappear {
+            viewModel.saveCurrentState()
         }
     }
 
@@ -142,61 +144,7 @@ struct ContentView: View {
     }
 
     var timeBlockView: some View {
-        VStack {
-            ScrollView {
-                HStack {
-                    VStack(alignment: .leading) {
-                        ForEach(0..<24) { hour in
-                            Text("\(hour % 12 == 0 ? 12 : hour % 12) \(hour < 12 ? "am" : "pm")")
-                                .padding(.vertical, 8)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                        }
-                    }
-                    .frame(maxWidth: 100)
-                    .padding()
-
-                    VStack(alignment: .leading) {
-                        ForEach(["Need & Now", "Need & Later", "Want & Now", "Want & Later"], id: \.self) { section in
-                            if let terms = sortedTerms[section], !terms.isEmpty {
-                                ForEach(terms, id: \.self) { term in
-                                    Text(term)
-                                        .padding(8)
-                                        .background(getColor(for: section))
-                                        .cornerRadius(8)
-                                        .foregroundColor(.white)
-                                        .padding(.horizontal, 10)
-                                }
-                            }
-                        }
-                    }
-                    .frame(maxWidth: .infinity, alignment: .trailing)
-                }
-            }
-
-            Spacer()
-
-            Button(action: resetView) {
-                Text("Main Screen")
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.white)
-                    .foregroundColor(.black)
-                    .cornerRadius(10)
-            }
-            .padding(.horizontal, 30)
-            .padding(.bottom, 50)
-        }
-        .background(backgroundColor.edgesIgnoringSafeArea(.all))
-    }
-
-    private func getColor(for section: String) -> Color {
-        switch section {
-        case "Need & Now": return .red
-        case "Need & Later": return .orange
-        case "Want & Now": return .green
-        case "Want & Later": return .yellow
-        default: return .gray
-        }
+        TimeBlockView(sortedTerms: $viewModel.sortedTerms, termsAtTime: $termsAtTime)
     }
 
     private func resetView() {

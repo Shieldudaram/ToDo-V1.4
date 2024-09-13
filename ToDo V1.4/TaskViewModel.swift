@@ -3,6 +3,12 @@ import Combine
 
 class TaskViewModel: ObservableObject {
     @Published var tasks: [Task] = []
+    @Published var sortedTerms: [String: [String]] = [:]
+
+    init() {
+        loadTasks()
+        loadSortedTerms()
+    }
 
     func addTask(name: String, points: Int, checkboxes: Int) {
         let newTask = Task(name: name, points: points, isCompleted: Array(repeating: false, count: checkboxes))
@@ -51,6 +57,15 @@ class TaskViewModel: ObservableObject {
         }
     }
 
+    private func saveSortedTerms() {
+        do {
+            let data = try JSONEncoder().encode(sortedTerms)
+            UserDefaults.standard.set(data, forKey: "sortedTerms")
+        } catch {
+            print("Failed to save sorted terms: \(error)")
+        }
+    }
+
     func loadTasks() {
         if let data = UserDefaults.standard.data(forKey: "tasks") {
             do {
@@ -61,7 +76,18 @@ class TaskViewModel: ObservableObject {
         }
     }
 
-    init() {
-        loadTasks()
+    func loadSortedTerms() {
+        if let data = UserDefaults.standard.data(forKey: "sortedTerms") {
+            do {
+                sortedTerms = try JSONDecoder().decode([String: [String]].self, from: data)
+            } catch {
+                print("Failed to load sorted terms: \(error)")
+            }
+        }
+    }
+
+    func saveCurrentState() {
+        saveTasks()
+        saveSortedTerms()
     }
 }
