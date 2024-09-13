@@ -5,6 +5,7 @@ struct TimeBlockView: View {
     private let times: [String] = (0..<24).map { "\($0 % 12 == 0 ? 12 : $0 % 12) \($0 < 12 ? "am" : "pm")" }
     @State private var selectedTime: String?
     @State private var termsAtTime: [String: [String: [String]]] = [:] // [time : [section: [terms]]]
+    var onMainScreen: () -> Void
 
     var body: some View {
         VStack {
@@ -50,7 +51,7 @@ struct TimeBlockView: View {
 
             Spacer()
 
-            Button(action: resetView) {
+            Button(action: onMainScreen) {
                 Text("Main Screen")
                     .frame(maxWidth: .infinity)
                     .padding()
@@ -76,5 +77,5 @@ struct TimeBlockView: View {
 }
 
 #Preview {
-    TimeBlockView(sortedTerms: .constant(["Need & Now": ["Example"]]))
+    TimeBlockView(sortedTerms: .constant(["Need & Now": ["Example"]]), onMainScreen: {})
 }
